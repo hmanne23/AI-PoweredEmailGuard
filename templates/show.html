@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>Inbox Guardian | Result</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root[data-theme='dark'] {
+      --bg: #121624;
+      --box: #1E1E2E;
+      --meta: #2A2A4E;
+      --text: #ffffff;
+    }
+
+    :root[data-theme='light'] {
+      --bg: #f4f4f4;
+      --box: #ffffff;
+      --meta: #f0f0f0;
+      --text: #222222;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .result-box {
+      max-width: 700px;
+      margin: 60px auto;
+      padding: 2rem;
+      background-color: var(--box);
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .meta-box {
+      background-color: var(--meta);
+      padding: 1rem;
+      border-radius: 10px;
+      margin-top: 1.5rem;
+    }
+
+    .progress-bar {
+      transition: width 0.5s ease-in-out;
+    }
+
+    .btn-back {
+      margin-top: 2rem;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+    }
+
+    .btn-toggle {
+      border: none;
+      background: transparent;
+      font-size: 1.5rem;
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Theme Switch -->
+  <div class="theme-toggle">
+    <button class="btn-toggle" onclick="toggleTheme()" title="Toggle Theme">🌓</button>
+  </div>
+
+  <div class="result-box">
+    <h2 class="text-center">📨 Classification Result</h2>
+
+    <!-- Prediction -->
+    <div class="text-center my-3">
+      {% if prediction == 1 %}
+        <span class="badge bg-danger">SPAM</span>
+      {% elif prediction == 0 %}
+        <span class="badge bg-success">NOT SPAM</span>
+      {% else %}
+        <span class="badge bg-warning text-dark">Unknown</span>
+      {% endif %}
+    </div>
+
+    <!-- Confidence Score -->
+    {% if confidence %}
+      <p class="text-center">Confidence Score: <strong>{{ confidence }}%</strong></p>
+      <div class="progress mb-4">
+        <div class="progress-bar bg-info" role="progressbar" style="width: {{ confidence }}%" aria-valuenow="{{ confidence }}" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+    {% endif %}
+
+    <!-- Threat Score -->
+    {% if threat_score %}
+    <div class="mt-4 text-center">
+      <h5>🛡️ Email Threat Score: <strong>{{ threat_score }}/100</strong></h5>
+      {% if threat_score <= 30 %}
+        <span class="badge bg-success">{{ recommendation }}</span>
+      {% elif threat_score <= 60 %}
+        <span class="badge bg-warning text-dark">{{ recommendation }}</span>
+      {% else %}
+        <span class="badge bg-danger">{{ recommendation }}</span>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- Metadata -->
+    {% if metadata %}
+    <div class="meta-box">
+      <h5>📄 Email Summary</h5>
+      <p><strong>From:</strong> {{ metadata.from }}</p>
+      <p><strong>Subject:</strong> {{ metadata.subject }}</p>
+      <p><strong>Date:</strong> {{ metadata.date }}</p>
+      <p><strong>Links:</strong> {{ metadata.link_count }}</p>
+      <p><strong>Spam Keywords:</strong>
+        {% if metadata.spam_words %}
+          {{ metadata.spam_words | join(", ") }}
+        {% else %}
+          None detected
+        {% endif %}
+      </p>
+    </div>
+    {% endif %}
+
+    <!-- Back Button -->
+    <div class="text-center">
+      <a href="/classify" class="btn btn-warning btn-back">🔁 Analyze Another Email</a>
+    </div>
+  </div>
+
+  <!-- Theme JS -->
+  <script>
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+
+    window.onload = function () {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    };
+  </script>
+
+</body>
+</html>
