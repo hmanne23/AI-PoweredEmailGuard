@@ -1,8 +1,8 @@
-AI-Powered Email Guard
+Smart Email Classifier
 
 Introduction:
 
-AI-Powered Email Guard is a web-based machine learning application designed to classify incoming emails as Spam or Not Spam.
+Smart Email Classifier is a web-based machine learning application designed to classify incoming emails as Spam or Not Spam.
 It uses Natural Language Processing (NLP) and classification algorithms (Naive Bayes and SVM) to enhance email security and user trust.
 
 Key Features:
@@ -14,7 +14,7 @@ Key Features:
 
 Project Structure:
 
-AI-PoweredEmailGuard/
+Smart Email Classifier/
 │
 ├── main.py                   # Flask backend and route handling
 ├── requirements.txt          # List of all Python dependencies
@@ -26,7 +26,6 @@ AI-PoweredEmailGuard/
 │   ├── login.html            # User login page
 │   ├── register.html         # User registration page
 │   ├── history.html          # Displays past classification history
-├── static/                   # Optional CSS/JS files
 ├── .gitignore                # Files/folders to be ignored by Git
 ├── Email Spam_with_pipeline.ipynb  # Model training using pipeline
 ├── Email Spam.ipynb          # Direct Naive Bayes model training
@@ -49,8 +48,8 @@ Usage:
 
 Contributors:
 	•	Harshitha Manne
-	•	Sanjana
-	•	Rohit
+	•	Sanjana Reddy Kondam
+	•	Rohit Arikatla
 
 Acknowledgments:
 
